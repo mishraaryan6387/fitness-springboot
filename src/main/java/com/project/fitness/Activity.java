@@ -1,66 +1,50 @@
 package com.project.fitness;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
-import javax.persistence.CascadeType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.CollectionTable;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 
 @Entity
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Activity {
     @Id
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.UUID)
+        private String id ;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_user"))
-    @JsonIgnore
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false , foreignKey = @ForeignKey(name = "fk_activity_user"))
+       @JsonIgnore
+        private User user  ;
+        @Enumerated(EnumType.STRING)
+        private ActivityType Type;
 
-    @Enumerated(EnumType.STRING)
-    private ActivityType type;
 
-    @ElementCollection
-    @CollectionTable(name = "activity_additional_metrics", joinColumns = @JoinColumn(name = "activity_id"))
-    @javax.persistence.MapKeyColumn(name = "metric_key")
-    @Column(name = "metric_value")
-    private Map<String, String> additionalMetrics = new HashMap<>();
+        @JdbcTypeCode(SqlTypes.JSON)
+        @Column(columnDefinition = "json")
+        private Map<String,Object> additionalMetrics ;
 
-    private Integer duration;
-    private Integer caloriesBurned;
-    private LocalDateTime startTime;
-    private LocalDateTime createdTime;
-    private LocalDateTime updatedTime;
 
-    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Recommendations> recommendations = new ArrayList<>();
+        private Integer duration;
+        private Integer calories;
+        private LocalDateTime  startTime;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 
-    @PrePersist
-    void onCreate() {
-        LocalDateTime now = LocalDateTime.now();
-        createdTime = now;
-        updatedTime = now;
-    }
+        @OneToMany(mappedBy = "activity",cascade = CascadeType.ALL , orphanRemoval = false)
+        @JsonIgnore
+        private List<Recommendations> recommendations = new ArrayList<>();
 
-    @PreUpdate
-    void onUpdate() {
-        updatedTime = LocalDateTime.now();
-    }
+
 }
