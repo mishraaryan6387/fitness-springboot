@@ -1,4 +1,4 @@
-package com.project.fitness;
+package com.project.fitness.model;
 
 
 public enum ActivityType {

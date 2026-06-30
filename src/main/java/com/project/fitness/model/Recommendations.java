@@ -1,4 +1,4 @@
-package com.project.fitness;
+package com.project.fitness.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
