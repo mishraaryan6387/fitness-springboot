@@ -1,9 +1,12 @@
 package com.project.fitness.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
@@ -14,7 +17,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Recommendations {
+@Builder
+public class Recommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -46,6 +50,8 @@ public class Recommendations {
     @Column(columnDefinition = "json")
     private List<String> safety ;
 
+    @CreationTimestamp
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

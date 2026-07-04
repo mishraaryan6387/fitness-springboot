@@ -4,9 +4,12 @@ package com.project.fitness.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 
@@ -18,6 +21,8 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Table(name = "activities")
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,7 +33,7 @@ public class Activity {
        @JsonIgnore
         private User user  ;
         @Enumerated(EnumType.STRING)
-        private ActivityType Type;
+        private ActivityType type;
 
 
         @JdbcTypeCode(SqlTypes.JSON)
@@ -39,12 +44,14 @@ public class Activity {
         private Integer duration;
         private Integer calories;
         private LocalDateTime  startTime;
+        @CreationTimestamp
         private LocalDateTime createdAt;
+        @UpdateTimestamp
         private LocalDateTime updatedAt;
 
         @OneToMany(mappedBy = "activity",cascade = CascadeType.ALL , orphanRemoval = false)
         @JsonIgnore
-        private List<Recommendations> recommendations = new ArrayList<>();
+        private List<Recommendation> recommendations = new ArrayList<>();
 
 
 }

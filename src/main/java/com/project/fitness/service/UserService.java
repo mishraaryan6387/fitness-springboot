@@ -3,6 +3,7 @@ package com.project.fitness.service;
 
 import com.project.fitness.dto.RegisterRequest;
 import com.project.fitness.dto.UserResponse;
+
 import com.project.fitness.model.User;
 import com.project.fitness.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,4 +65,6 @@ public class UserService {
         response.setUpdatedAt(savedUser.getUpdatedAt());
         return response;
     }
+
+
 }
