@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ActivityService {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ActivityService.class);
+
     private final ActivityRepository activityRepository;
 
     private  final UserRepository userRepository;
@@ -28,7 +30,7 @@ public class ActivityService {
 
     public ActivityResponse trackActivity(ActivityRequest request) {
         User user =  userRepository.findById(request.getUserId())
-                .orElseThrow(()-> new RuntimeException("user not found" +request.getUserId()));
+                .orElseThrow(() -> { logger.warn("User not found: {}", request.getUserId()); return new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "User not found " + request.getUserId()); });
 
         Activity activity = Activity.builder()
                 .user(user)

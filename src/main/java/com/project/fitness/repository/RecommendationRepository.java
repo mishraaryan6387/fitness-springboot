@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RecommendationRepository extends JpaRepository<Recommendation,String> {
-    List<Recommendation> findBYUserId(String userId);
+    List<Recommendation> findByUser_Id(String userId);
 
-    List<Recommendation> findBYActivityId(String activityId);
+    List<Recommendation> findByActivity_Id(String activityId);
 }

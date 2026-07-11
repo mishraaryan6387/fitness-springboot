@@ -38,10 +38,10 @@ public class RecommendationService {
 
     public List<Recommendation> getUserRecommendation(String userId) {
 
-        return recommendationRepository.findBYUserId(userId);
+        return recommendationRepository.findByUser_Id(userId);
     }
     public List<Recommendation> getActivityRecommendation(String activityId) {
-        return recommendationRepository.findBYActivityId(activityId);
+        return recommendationRepository.findByActivity_Id(activityId);
 
     }
 }
